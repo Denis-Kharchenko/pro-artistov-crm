@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Заявки · Про Артистов CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="leads">
+<div class="app">
+  <aside class="side"></aside>
+
+  <div class="main">
+    <header class="top">
+      <button class="icon-btn menu-btn" aria-label="Открыть меню"><i class="ti ti-menu-2"></i></button>
+      <div>
+        <h1>Заявки</h1>
+        <p class="sub">Конверсия в абонемент за октябрь: 38%</p>
+      </div>
+      <div class="top-actions">
+        <label class="search"><i class="ti ti-search" aria-hidden="true"></i><span class="sr-only">Поиск</span><input placeholder="Имя, телефон"><span class="kbd">Ctrl K</span></label>
+        <button class="btn btn-primary"><i class="ti ti-plus"></i><span class="hide-sm">Новая заявка</span></button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="toolbar">
+        <div class="seg" role="group" aria-label="Направление">
+          <button aria-pressed="true">Все направления</button>
+          <button aria-pressed="false">Хореография</button>
+          <button aria-pressed="false">Вокал</button>
+          <button aria-pressed="false">Продюсирование</button>
+          <button aria-pressed="false">Блогинг</button>
+        </div>
+        <span class="spacer"></span>
+        <button class="btn btn-ghost"><i class="ti ti-filter"></i>Источник</button>
+      </div>
+
+      <div class="board" id="board"></div>
+    </main>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+<script>
+  // Демо-данные
+  const COLS = [
+    { id: "new", title: "Новые" },
+    { id: "call", title: "Связались" },
+    { id: "trial", title: "Пробный урок" },
+    { id: "won", title: "Купили абонемент" },
+    { id: "lost", title: "Отказ" },
+  ];
+  const DIR = { dance: "Хореография", vocal: "Вокал", prod: "Продюсирование", media: "Блогинг" };
+  const SRC = { vk: ["ti-brand-vk", "ВКонтакте"], site: ["ti-world", "Сайт"], call: ["ti-phone", "Звонок"], tg: ["ti-brand-telegram", "Telegram"] };
+  const LEADS = [
+    { col: "new", name: "Варвара", age: 11, dir: "dance", src: "vk", note: "Хочет в группу «Свои», Можайская", parent: "Ольга", when: "Перезвонить до 18:30" },
+    { col: "new", name: "Тимофей", age: 14, dir: "prod", src: "site", note: "Пишет биты, хочет записать первый трек", parent: "Сам", when: "Сегодня" },
+    { col: "new", name: "Алиса", age: 6, dir: "dance", src: "call", note: "Малыши 4–6, удобно по выходным", parent: "Наталья", when: "Сегодня" },
+    { col: "new", name: "Ева Князева", age: 17, dir: "vocal", src: "vk", note: "Индивидуально, подготовка к прослушиванию", parent: "Сама", when: "Завтра" },
+    { col: "call", name: "Матвей", age: 9, dir: "vocal", src: "tg", note: "Думают между вокалом и хореографией", parent: "Анна", when: "Просрочено 1 день", late: true },
+    { col: "call", name: "Полина", age: 13, dir: "media", src: "site", note: "Ведёт TikTok, хочет в медиалабораторию", parent: "Игорь", when: "Пт, 12:00" },
+    { col: "trial", name: "Соня Еремина", age: 8, dir: "dance", src: "vk", note: "Пробное сегодня в 18:15, Лабораторный", parent: "Мария", when: "Сегодня, 18:15" },
+    { col: "trial", name: "Арсений", age: 12, dir: "dance", src: "call", note: "Пробное в «Свои», брат уже занимается", parent: "Елена", when: "Вт, 19:30" },
+    { col: "trial", name: "Кира", age: 15, dir: "vocal", src: "vk", note: "Пробный индивидуальный урок", parent: "Сама", when: "Сб, 13:00" },
+    { col: "won", name: "Лев Захаров", age: 10, dir: "dance", src: "vk", note: "Абонемент 8 занятий, 8 800 ₽", parent: "Светлана", when: "28 окт" },
+    { col: "won", name: "Ульяна", age: 16, dir: "prod", src: "site", note: "Курс «Свой трек», 35 000 ₽", parent: "Сама", when: "26 окт" },
+    { col: "lost", name: "Даниил", age: 7, dir: "dance", src: "call", note: "Далеко ездить, вернутся весной", parent: "Ксения", when: "24 окт" },
+  ];
+
+  const board = document.getElementById("board");
+  const card = (l, i) => `
+    <article class="lead" draggable="true" data-i="${i}">
+      <div class="lead-top">
+        <div><b>${l.name}</b><span class="age">${l.age} лет</span></div>
+        <span class="src ${l.src === "vk" ? "src-vk" : ""}" title="${SRC[l.src][1]}"><i class="ti ${SRC[l.src][0]}"></i></span>
+      </div>
+      <p>${l.note}</p>
+      <div class="lead-foot">
+        <span class="dir dir-${l.dir}">${DIR[l.dir]}</span>
+        <span class="when ${l.late ? "late" : ""}"><i class="ti ti-clock" style="font-size:13px"></i>${l.when}</span>
+      </div>
+    </article>`;
+
+  function render() {
+    board.innerHTML = COLS.map((c) => {
+      const items = LEADS.map((l, i) => [l, i]).filter(([l]) => l.col === c.id);
+      return `<section class="col" data-col="${c.id}" aria-label="${c.title}">
+        <div class="col-head"><h2>${c.title}</h2><span class="n">${items.length}</span></div>
+        ${items.length ? items.map(([l, i]) => card(l, i)).join("") : '<div class="col-empty">Перетащите заявку сюда</div>'}
+      </section>`;
+    }).join("");
+  }
+  render();
+
+  let dragI = null;
+  board.addEventListener("dragstart", (e) => {
+    const el = e.target.closest(".lead"); if (!el) return;
+    dragI = +el.dataset.i; el.classList.add("dragging");
+    e.dataTransfer.effectAllowed = "move";
+  });
+  board.addEventListener("dragend", () => { dragI = null; render(); });
+  board.addEventListener("dragover", (e) => {
+    const col = e.target.closest(".col"); if (!col || dragI === null) return;
+    e.preventDefault();
+    board.querySelectorAll(".col").forEach((c) => c.classList.toggle("drop", c === col));
+  });
+  board.addEventListener("drop", (e) => {
+    const col = e.target.closest(".col"); if (!col || dragI === null) return;
+    e.preventDefault(); LEADS[dragI].col = col.dataset.col; dragI = null; render();
+  });
+</script>
+</body>
+</html>

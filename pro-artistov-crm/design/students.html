@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ученики · Про Артистов CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="students">
+<div class="app">
+  <aside class="side"></aside>
+
+  <div class="main">
+    <header class="top">
+      <button class="icon-btn menu-btn" aria-label="Открыть меню"><i class="ti ti-menu-2"></i></button>
+      <div>
+        <h1>Ученики</h1>
+        <p class="sub">212 активных на двух площадках</p>
+      </div>
+      <div class="top-actions">
+        <label class="search"><i class="ti ti-search" aria-hidden="true"></i><span class="sr-only">Поиск</span><input id="q" placeholder="Ученик, родитель, телефон"><span class="kbd">Ctrl K</span></label>
+        <button class="btn btn-ghost hide-sm"><i class="ti ti-download"></i>Экспорт</button>
+        <button class="btn btn-primary"><i class="ti ti-plus"></i><span class="hide-sm">Добавить</span></button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="toolbar">
+        <div class="seg" id="status" role="group" aria-label="Статус">
+          <button aria-pressed="true" data-value="all">Все</button>
+          <button aria-pressed="false" data-value="active">Занимаются</button>
+          <button aria-pressed="false" data-value="ending">Абонемент кончается</button>
+          <button aria-pressed="false" data-value="debt">С долгом</button>
+        </div>
+      </div>
+
+      <div class="split">
+        <section class="panel">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Ученик</th><th>Группа</th><th>Площадка</th><th>Абонемент</th><th class="right">Баланс</th></tr></thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <p id="empty" class="faint" style="display:none;padding:28px 20px;text-align:center">Никого не нашли. Проверьте написание или сбросьте фильтр.</p>
+        </section>
+
+        <aside class="panel profile" id="profile" aria-live="polite"></aside>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+<script>
+  // Демо-данные
+  const DIR = { dance: "Хореография", vocal: "Вокал", prod: "Продюсирование", media: "Блогинг" };
+  const S = [
+    { name: "Мира Голованова", age: 12, h: 340, dir: "vocal", group: "Вокал, индивидуально", place: "Лабораторный", left: 1, total: 4, bal: -2400, parent: "Голованова Юлия", phone: "+7 (921) 384-17-52", since: "сентябрь 2025", teacher: "Ирина Лаптева", visits: "yyynyyyy", note: "Готовим к отчётному концерту 21 декабря, песня согласована." },
+    { name: "Лев Захаров", age: 10, h: 25, dir: "dance", group: "«Свои», хип-хоп", place: "Можайская", left: 8, total: 8, bal: 0, parent: "Захарова Светлана", phone: "+7 (911) 902-44-18", since: "октябрь 2026", teacher: "Алёна Валериевна", visits: "y", note: "Новичок, пришёл по заявке из ВК. Брат Арсений на пробном." },
+    { name: "Ульяна Петренко", age: 16, h: 160, dir: "prod", group: "Свой трек", place: "Лабораторный", left: 6, total: 8, bal: 0, parent: "Сама, мама Ирина", phone: "+7 (999) 517-30-66", since: "октябрь 2026", teacher: "Глеб Арсеньев", visits: "yy", note: "Демо готово на 60%. Нужна студийная смена на 6 ноября." },
+    { name: "Сева Миронов", age: 11, h: 200, dir: "dance", group: "«Свои», хип-хоп", place: "Можайская", left: 2, total: 8, bal: 0, parent: "Миронов Павел", phone: "+7 (931) 245-81-09", since: "январь 2026", teacher: "Алёна Валериевна", visits: "yyyyyynyy", note: "" },
+    { name: "Злата Кузнецова", age: 7, h: 300, dir: "dance", group: "Хореография 7–9", place: "Лабораторный", left: 5, total: 8, bal: 0, parent: "Кузнецова Дарья", phone: "+7 (921) 660-72-35", since: "сентябрь 2026", teacher: "Дарья Белова", visits: "yyyny", note: "Аллергия на цитрусовые, учитывать на праздниках." },
+    { name: "Платон Ершов", age: 14, h: 260, dir: "media", group: "Медиалаборатория", place: "Лабораторный", left: 1, total: 8, bal: -9900, parent: "Ершова Алла", phone: "+7 (905) 118-26-47", since: "март 2026", teacher: "Ника Орлова", visits: "ynyyyyny", note: "Оплата частями, вторая часть просрочена с 20 октября." },
+    { name: "Василиса Громова", age: 9, h: 10, dir: "vocal", group: "Голос 7–9", place: "Можайская", left: 4, total: 8, bal: 0, parent: "Громов Антон", phone: "+7 (911) 773-05-91", since: "сентябрь 2025", teacher: "Ирина Лаптева", visits: "yyyyyyyy", note: "" },
+    { name: "Ярослав Белкин", age: 13, h: 120, dir: "vocal", group: "Голос 10+", place: "Можайская", left: 3, total: 8, bal: 1200, parent: "Белкина Ольга", phone: "+7 (952) 390-64-28", since: "февраль 2026", teacher: "Ирина Лаптева", visits: "yyynyyyy", note: "Переплата 1 200 ₽ зачтётся в следующий абонемент." },
+    { name: "Алина Сафронова", age: 5, h: 330, dir: "dance", group: "Малыши 4–6", place: "Лабораторный", left: 6, total: 8, bal: 0, parent: "Сафронова Вера", phone: "+7 (981) 214-57-80", since: "октябрь 2026", teacher: "Дарья Белова", visits: "yy", note: "" },
+  ];
+  const rub = (n) => (n > 0 ? "+" : n < 0 ? "−" : "") + Math.abs(n).toLocaleString("ru-RU") + " ₽";
+  const initials = (n) => n.split(" ").map((p) => p[0]).slice(0, 2).join("");
+  const years = (a) => a + (a % 10 === 1 && a !== 11 ? " год" : [2, 3, 4].includes(a % 10) && ![12, 13, 14].includes(a) ? " года" : " лет");
+
+  let sel = 0, filter = "all";
+  const rows = document.getElementById("rows"), profile = document.getElementById("profile"), q = document.getElementById("q");
+
+  function visible() {
+    const t = q.value.trim().toLowerCase();
+    return S.map((s, i) => [s, i]).filter(([s]) =>
+      (filter === "all" || (filter === "debt" && s.bal < 0) || (filter === "ending" && s.left <= 2) || (filter === "active" && s.left > 0)) &&
+      (!t || (s.name + s.parent + s.phone).toLowerCase().includes(t)));
+  }
+
+  function renderRows() {
+    const v = visible();
+    document.getElementById("empty").style.display = v.length ? "none" : "block";
+    rows.innerHTML = v.map(([s, i]) => `
+      <tr data-i="${i}" aria-selected="${i === sel}" tabindex="0" style="cursor:pointer">
+        <td><div class="person"><span class="avatar" style="--h:${s.h}">${initials(s.name)}</span><div><b>${s.name}</b><span>${years(s.age)}</span></div></div></td>
+        <td><div>${s.group}</div><span class="dir dir-${s.dir}">${DIR[s.dir]}</span></td>
+        <td class="muted">${s.place}</td>
+        <td class="num ${s.left <= 2 ? "low" : ""}">${s.left} из ${s.total}</td>
+        <td class="right num ${s.bal < 0 ? "neg" : s.bal > 0 ? "pos" : "faint"}">${s.bal ? rub(s.bal) : "0 ₽"}</td>
+      </tr>`).join("");
+  }
+
+  function renderProfile() {
+    const s = S[sel];
+    const v = s.visits.padStart(8, "-").split("");
+    profile.innerHTML = `
+      <div class="profile-head">
+        <span class="avatar avatar-lg" style="--h:${s.h}">${initials(s.name)}</span>
+        <div><h2>${s.name}</h2><p>${years(s.age)} · занимается с ${s.since}</p></div>
+      </div>
+      <section>
+        <h3>Обучение</h3>
+        <dl class="kv">
+          <dt>Группа</dt><dd>${s.group}</dd>
+          <dt>Направление</dt><dd><span class="dir dir-${s.dir}">${DIR[s.dir]}</span></dd>
+          <dt>Педагог</dt><dd>${s.teacher}</dd>
+          <dt>Площадка</dt><dd>${s.place}</dd>
+          <dt>Абонемент</dt><dd class="${s.left <= 2 ? "low" : ""}">осталось ${s.left} из ${s.total}</dd>
+          <dt>Баланс</dt><dd class="${s.bal < 0 ? "neg" : s.bal > 0 ? "pos" : ""}">${s.bal ? rub(s.bal) : "0 ₽"}</dd>
+        </dl>
+      </section>
+      <section>
+        <h3>Последние 8 занятий</h3>
+        <div class="visits">${v.map((x) => x === "y" ? '<i class="y" title="Был"><span class="ti ti-check" style="font-size:14px"></span></i>' : x === "n" ? '<i class="n" title="Пропуск"><span class="ti ti-x" style="font-size:14px"></span></i>' : '<i title="Ещё не было">·</i>').join("")}</div>
+      </section>
+      <section>
+        <h3>Родитель</h3>
+        <dl class="kv"><dt>Контакт</dt><dd>${s.parent}</dd><dt>Телефон</dt><dd class="num">${s.phone}</dd></dl>
+      </section>
+      ${s.note ? `<section><h3>Заметка</h3><p class="muted">${s.note}</p></section>` : ""}
+      <div class="profile-actions">
+        <button class="btn btn-primary">${s.bal < 0 ? "Выставить счёт" : "Продлить абонемент"}</button>
+        <button class="icon-btn" aria-label="Позвонить"><i class="ti ti-phone"></i></button>
+        <button class="icon-btn" aria-label="Написать"><i class="ti ti-message"></i></button>
+      </div>`;
+  }
+
+  rows.addEventListener("click", (e) => { const tr = e.target.closest("tr"); if (!tr) return; sel = +tr.dataset.i; renderRows(); renderProfile(); });
+  rows.addEventListener("keydown", (e) => { if (e.key === "Enter") e.target.closest("tr")?.click(); });
+  document.getElementById("status").addEventListener("change", (e) => { filter = e.detail; renderRows(); });
+  q.addEventListener("input", renderRows);
+  renderRows(); renderProfile();
+</script>
+</body>
+</html>

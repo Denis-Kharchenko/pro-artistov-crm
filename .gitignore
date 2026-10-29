@@ -1,0 +1,9 @@
+.claude/
+# документы заказчика не публикуются
+*.docx
+*.xlsx
+*.pdf
+~$*
+kp-crm.html
+.DS_Store
+Thumbs.db

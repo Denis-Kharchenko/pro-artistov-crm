@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Финансы · Про Артистов CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="finance">
+<div class="app">
+  <aside class="side"></aside>
+
+  <div class="main">
+    <header class="top">
+      <button class="icon-btn menu-btn" aria-label="Открыть меню"><i class="ti ti-menu-2"></i></button>
+      <div>
+        <h1>Финансы</h1>
+        <p class="sub">Октябрь 2026, обе площадки</p>
+      </div>
+      <div class="top-actions">
+        <div class="seg hide-sm" role="group" aria-label="Период">
+          <button aria-pressed="false">Неделя</button>
+          <button aria-pressed="true">Месяц</button>
+          <button aria-pressed="false">Год</button>
+        </div>
+        <button class="btn btn-primary"><i class="ti ti-plus"></i><span class="hide-sm">Принять оплату</span></button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="panel" aria-label="Итоги месяца">
+        <dl class="figures">
+          <div class="figure"><dt>Выручка за октябрь</dt><dd class="num">1 284 600 ₽</dd><span class="delta up">+8,4% к сентябрю</span></div>
+          <div class="figure"><dt>Ожидается до конца месяца</dt><dd class="num">186 400 ₽</dd><span class="delta">31 продление</span></div>
+          <div class="figure"><dt>Долги учеников</dt><dd class="num">42 700 ₽</dd><span class="delta down">у 11 учеников</span></div>
+          <div class="figure"><dt>Средний абонемент</dt><dd class="num">7 950 ₽</dd><span class="delta">8 занятий</span></div>
+        </dl>
+      </section>
+
+      <div class="fin-grid">
+        <section class="panel">
+          <div class="panel-head"><h2>Поступления по дням</h2><span class="faint" style="margin-left:auto;font-size:13px">Серым выходные</span></div>
+          <div class="chart" id="chart" role="img" aria-label="Выручка по дням октября, максимум 28 октября"></div>
+          <div class="chart-axis" id="axis"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><h2>По направлениям</h2></div>
+          <ul class="split-list">
+            <li><div class="row"><span class="dir dir-dance">Хореография</span><b class="num">590 900 ₽</b><span class="share">46%</span></div><div class="meter" style="--c:var(--dir-dance);--w:100%"></div></li>
+            <li><div class="row"><span class="dir dir-vocal">Вокал</span><b class="num">398 200 ₽</b><span class="share">31%</span></div><div class="meter" style="--c:var(--dir-vocal);--w:67%"></div></li>
+            <li><div class="row"><span class="dir dir-prod">Продюсирование</span><b class="num">192 700 ₽</b><span class="share">15%</span></div><div class="meter" style="--c:var(--dir-prod);--w:33%"></div></li>
+            <li><div class="row"><span class="dir dir-media">Блогинг и медиа</span><b class="num">102 800 ₽</b><span class="share">8%</span></div><div class="meter" style="--c:var(--dir-media);--w:17%"></div></li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="fin-grid">
+        <section class="panel">
+          <div class="panel-head"><h2>Последние оплаты</h2><a class="link" href="#">Все операции</a></div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Дата</th><th>Ученик</th><th>За что</th><th>Способ</th><th class="right">Сумма</th></tr></thead>
+              <tbody>
+                <tr><td class="muted num">29 окт, 17:12</td><td><div class="person"><span class="avatar" style="--h:10">ВГ</span><div><b>Василиса Громова</b><span>оплатил папа</span></div></div></td><td>Абонемент «Голос 7–9», 8 занятий</td><td><span class="tag">СБП</span></td><td class="right num">7 600 ₽</td></tr>
+                <tr><td class="muted num">29 окт, 16:40</td><td><div class="person"><span class="avatar" style="--h:200">СМ</span><div><b>Сева Миронов</b><span>оплатил папа</span></div></div></td><td>Абонемент «Свои», 8 занятий</td><td><span class="tag">Карта</span></td><td class="right num">8 800 ₽</td></tr>
+                <tr><td class="muted num">29 окт, 14:05</td><td><div class="person"><span class="avatar" style="--h:160">УП</span><div><b>Ульяна Петренко</b><span>сама</span></div></div></td><td>Студийная смена, 2 часа</td><td><span class="tag">СБП</span></td><td class="right num">6 000 ₽</td></tr>
+                <tr><td class="muted num">29 окт, 12:20</td><td><div class="person"><span class="avatar" style="--h:330">АС</span><div><b>Алина Сафронова</b><span>оплатила мама</span></div></div></td><td>Разовое занятие «Малыши 4–6»</td><td><span class="tag">Наличные</span></td><td class="right num">1 400 ₽</td></tr>
+                <tr><td class="muted num">28 окт, 19:48</td><td><div class="person"><span class="avatar" style="--h:25">ЛЗ</span><div><b>Лев Захаров</b><span>оплатила мама</span></div></div></td><td>Абонемент «Свои», 8 занятий</td><td><span class="tag">Карта</span></td><td class="right num">8 800 ₽</td></tr>
+                <tr><td class="muted num">28 окт, 18:02</td><td><div class="person"><span class="avatar" style="--h:120">ЯБ</span><div><b>Ярослав Белкин</b><span>оплатила мама</span></div></div></td><td>Возврат за пропуск по болезни</td><td><span class="tag">СБП</span></td><td class="right num neg">−1 200 ₽</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><h2>Должники</h2><button class="btn btn-ghost btn-sm" style="margin-left:auto">Напомнить всем</button></div>
+          <ul class="feed">
+            <li><span class="avatar" style="--h:260">ПЕ</span><div><b>Платон Ершов</b><span class="sub">Медиалаборатория, просрочено 9 дней</span></div><b class="num neg">9 900 ₽</b></li>
+            <li><span class="avatar" style="--h:340">МГ</span><div><b>Мира Голованова</b><span class="sub">Вокал индивидуально, урок сегодня</span></div><b class="num neg">2 400 ₽</b></li>
+            <li><span class="avatar" style="--h:50">ТВ</span><div><b>Таисия Воронина</b><span class="sub">«Свои», 2 занятия в долг</span></div><b class="num neg">2 200 ₽</b></li>
+            <li><span class="avatar" style="--h:290">ГС</span><div><b>Гордей Степанов</b><span class="sub">Голос 10+, ждём перевод до пятницы</span></div><b class="num neg">7 600 ₽</b></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+<script>
+  // Демо-данные: поступления по дням октября (тыс. ₽)
+  const V = [38.2, 21.4, 9.8, 6.1, 52.6, 44.0, 47.3, 39.9, 41.2, 18.5, 7.4, 61.8, 49.5, 43.1, 46.7, 38.0, 16.9, 8.2, 57.4, 48.8, 40.6, 51.3, 36.2, 19.7, 5.9, 63.0, 54.1, 72.4, 46.3];
+  const max = Math.max(...V);
+  const fmt = (v) => Math.round(v * 1000).toLocaleString("ru-RU") + " ₽";
+  document.getElementById("chart").innerHTML = V.map((v, i) => {
+    const d = new Date(2026, 9, i + 1).getDay();
+    const h = (v / max) * 100;
+    return `<div class="bar ${d === 0 || d === 6 ? "weekend" : ""} ${i === 28 ? "today" : ""}" style="--i:${i};--h:${h}%">
+      <span class="tip">${i + 1} окт: ${fmt(v)}</span><i style="height:${h}%"></i></div>`;
+  }).join("");
+  document.getElementById("axis").innerHTML = V.map((_, i) => `<span>${(i + 1) % 7 === 1 ? i + 1 : ""}</span>`).join("");
+</script>
+</body>
+</html>

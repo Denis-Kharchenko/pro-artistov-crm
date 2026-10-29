@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Сегодня · Про Артистов CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="today">
+<div class="app">
+  <aside class="side"></aside>
+
+  <div class="main">
+    <header class="top">
+      <button class="icon-btn menu-btn" aria-label="Открыть меню"><i class="ti ti-menu-2"></i></button>
+      <div>
+        <h1>Сегодня</h1>
+        <p class="sub">Четверг, 29 октября</p>
+      </div>
+      <div class="top-actions">
+        <label class="search"><i class="ti ti-search" aria-hidden="true"></i><span class="sr-only">Поиск</span><input placeholder="Ученик, родитель, телефон"><span class="kbd">Ctrl K</span></label>
+        <button class="icon-btn has-dot" aria-label="Уведомления"><i class="ti ti-bell"></i></button>
+        <button class="btn btn-primary"><i class="ti ti-plus"></i><span class="hide-sm">Записать ученика</span></button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="panel" aria-label="Ключевые цифры дня">
+        <dl class="figures">
+          <div class="figure"><dt>Занятий сегодня</dt><dd class="num">14</dd><span class="delta">5 уже прошли</span></div>
+          <div class="figure"><dt>Пробных уроков</dt><dd class="num">3</dd><span class="delta up">2 подтвердили приход</span></div>
+          <div class="figure"><dt>Оплаты за день</dt><dd class="num">46 300 ₽</dd><span class="delta up">+12 400 ₽ к прошлому четвергу</span></div>
+          <div class="figure"><dt>Абонементы заканчиваются</dt><dd class="num">9</dd><span class="delta down">в ближайшие 7 дней</span></div>
+        </dl>
+      </section>
+
+      <div class="dash-grid">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Занятия</h2>
+            <div class="seg" role="group" aria-label="Фильтр по площадке">
+              <button aria-pressed="true">Все</button>
+              <button aria-pressed="false">Лабораторный</button>
+              <button aria-pressed="false">Можайская</button>
+            </div>
+            <a class="link" href="schedule.html">Расписание недели</a>
+          </div>
+          <ol class="timeline">
+            <li class="slot past">
+              <time>12:30<small>до 13:30</small></time>
+              <div><div class="slot-title">Малыши 4–6, хореография</div>
+                <div class="slot-meta"><span><i class="ti ti-map-pin"></i>Лабораторный, большой зал</span><span><i class="ti ti-user"></i>Дарья Белова</span></div></div>
+              <div class="slot-side"><span class="attend"><b>10</b> из 12</span></div>
+            </li>
+            <li class="slot past">
+              <time>15:00<small>до 16:30</small></time>
+              <div><div class="slot-title">Свой трек, продюсирование</div>
+                <div class="slot-meta"><span><i class="ti ti-map-pin"></i>Лабораторный, студия</span><span><i class="ti ti-user"></i>Глеб Арсеньев</span></div></div>
+              <div class="slot-side"><span class="attend"><b>5</b> из 6</span></div>
+            </li>
+            <li class="slot live">
+              <time>16:30<small>до 18:00</small></time>
+              <div><div class="slot-title">Голос 10+, групповой вокал</div>
+                <div class="slot-meta"><span><i class="ti ti-map-pin"></i>Можайская, вокальный класс</span><span><i class="ti ti-user"></i>Ирина Лаптева</span></div></div>
+              <div class="slot-side"><span class="tag tag-accent">Идёт</span><span class="attend"><b>9</b> из 12</span></div>
+            </li>
+            <li class="now-line" aria-label="Сейчас 17:40">17:40</li>
+            <li class="slot">
+              <time>18:00<small>до 19:00</small></time>
+              <div><div class="slot-title">Вокал, индивидуально: Мира Голованова</div>
+                <div class="slot-meta"><span><i class="ti ti-map-pin"></i>Лабораторный, класс 2</span><span><i class="ti ti-user"></i>Ирина Лаптева</span></div></div>
+              <div class="slot-side"><span class="tag tag-warn">Не оплачено</span><button class="btn btn-ghost btn-sm">Отметить</button></div>
+            </li>
+            <li class="slot">
+              <time>18:15<small>до 19:15</small></time>
+              <div><div class="slot-title">Пробный урок, хореография 7–9</div>
+                <div class="slot-meta"><span><i class="ti ti-map-pin"></i>Лабораторный, малый зал</span><span><i class="ti ti-user"></i>Дарья Белова</span></div></div>
+              <div class="slot-side"><span class="attend"><b>3</b> записаны</span><button class="btn btn-ghost btn-sm">Отметить</button></div>
+            </li>
+            <li class="slot">
+              <time>19:00<small>до 20:30</small></time>
+              <div><div class="slot-title">Медиалаборатория, блогинг</div>
+                <div class="slot-meta"><span><i class="ti ti-map-pin"></i>Лабораторный, студия</span><span><i class="ti ti-user"></i>Ника Орлова</span></div></div>
+              <div class="slot-side"><span class="attend"><b>8</b> записаны</span><button class="btn btn-ghost btn-sm">Отметить</button></div>
+            </li>
+            <li class="slot">
+              <time>19:30<small>до 21:00</small></time>
+              <div><div class="slot-title">«Свои», хип-хоп и дэнс-микс 10+</div>
+                <div class="slot-meta"><span><i class="ti ti-map-pin"></i>Можайская, большой зал</span><span><i class="ti ti-user"></i>Алёна Валериевна</span></div></div>
+              <div class="slot-side"><span class="attend"><b>13</b> записаны</span><button class="btn btn-ghost btn-sm">Отметить</button></div>
+            </li>
+          </ol>
+        </section>
+
+        <div class="stack">
+          <section class="panel">
+            <div class="panel-head"><h2>Новые заявки</h2><a class="link" href="leads.html">Все 7</a></div>
+            <ul class="feed">
+              <li><span class="src src-vk" title="ВКонтакте"><i class="ti ti-brand-vk"></i></span>
+                <div><b>Варвара, 11 лет</b><span class="sub">Группа «Свои», мама Ольга · 12 мин назад</span></div>
+                <button class="btn btn-sm">Позвонить</button></li>
+              <li><span class="src" title="Сайт"><i class="ti ti-world"></i></span>
+                <div><b>Тимофей, 14 лет</b><span class="sub">Продюсирование, запись трека · 40 мин</span></div>
+                <button class="btn btn-sm">Позвонить</button></li>
+              <li><span class="src" title="Звонок"><i class="ti ti-phone"></i></span>
+                <div><b>Алиса, 6 лет</b><span class="sub">Хореография, пробное · 1 ч</span></div>
+                <button class="btn btn-sm">Позвонить</button></li>
+              <li><span class="src src-vk" title="ВКонтакте"><i class="ti ti-brand-vk"></i></span>
+                <div><b>Ева Князева, 17 лет</b><span class="sub">Вокал индивидуально · 2 ч</span></div>
+                <button class="btn btn-sm">Позвонить</button></li>
+            </ul>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><h2>Требует внимания</h2></div>
+            <ul class="alerts">
+              <li><i class="ti ti-wallet" aria-hidden="true"></i><p><b>Мира Голованова</b> придёт на урок в 18:00 с долгом 2 400 ₽</p><button class="btn btn-ghost btn-sm">Счёт</button></li>
+              <li><i class="ti ti-ticket" aria-hidden="true"></i><p><b>9 абонементов</b> заканчиваются до 5 ноября. Пора предложить продление</p><button class="btn btn-ghost btn-sm">Список</button></li>
+              <li><i class="ti ti-alert-triangle" aria-hidden="true"></i><p><b>Пробное в 18:15:</b> родители Сони Ереминой не подтвердили приход</p><button class="btn btn-ghost btn-sm">Напомнить</button></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+</body>
+</html>

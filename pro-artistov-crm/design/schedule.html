@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Расписание · Про Артистов CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="schedule">
+<div class="app">
+  <aside class="side"></aside>
+
+  <div class="main">
+    <header class="top">
+      <button class="icon-btn menu-btn" aria-label="Открыть меню"><i class="ti ti-menu-2"></i></button>
+      <div>
+        <h1>Расписание</h1>
+        <p class="sub">26 октября – 1 ноября</p>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" aria-label="Предыдущая неделя"><i class="ti ti-chevron-left"></i></button>
+        <button class="btn btn-ghost hide-sm">Эта неделя</button>
+        <button class="icon-btn" aria-label="Следующая неделя"><i class="ti ti-chevron-right"></i></button>
+        <button class="btn btn-primary"><i class="ti ti-plus"></i><span class="hide-sm">Занятие</span></button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="toolbar">
+        <div class="seg" id="place" role="group" aria-label="Площадка">
+          <button aria-pressed="true" data-value="all">Обе площадки</button>
+          <button aria-pressed="false" data-value="lab">Лабораторный, 23</button>
+          <button aria-pressed="false" data-value="moz">Можайская, 9</button>
+        </div>
+        <span class="spacer"></span>
+        <div class="legend">
+          <span class="dir dir-dance">Хореография</span>
+          <span class="dir dir-vocal">Вокал</span>
+          <span class="dir dir-prod">Продюсирование</span>
+          <span class="dir dir-media">Блогинг</span>
+        </div>
+      </div>
+
+      <section class="panel" style="overflow:hidden">
+        <div class="week" id="week"></div>
+      </section>
+    </main>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+<script>
+  // Демо-данные. day: 0 = пн; время в часах
+  const START = 10, END = 21.5, PX = 64;
+  const DAYS = [["Пн", 26], ["Вт", 27], ["Ср", 28], ["Чт", 29], ["Пт", 30], ["Сб", 31], ["Вс", 1]];
+  const TODAY = 3, NOW = 17 + 40 / 60;
+  const L = [
+    [0, 16.5, 1.5, "vocal", "Голос 10+", "moz", "Вокальный класс", "Лаптева"],
+    [0, 17, 1, "dance", "Хореография 7–9", "lab", "Малый зал", "Белова"],
+    [0, 18.5, 1.5, "prod", "Свой трек", "lab", "Студия", "Арсеньев"],
+    [1, 12.5, 1, "dance", "Малыши 4–6", "lab", "Большой зал", "Белова"],
+    [1, 16, 1, "vocal", "Голос 7–9", "moz", "Вокальный класс", "Лаптева"],
+    [1, 17.5, 1.5, "media", "Медиалаборатория", "lab", "Студия", "Орлова"],
+    [1, 19.5, 1.5, "dance", "«Свои» 10+", "moz", "Большой зал", "Алёна В."],
+    [2, 15, 1.5, "prod", "Свой трек", "lab", "Студия", "Арсеньев"],
+    [2, 17, 1, "dance", "Хореография 7–9", "lab", "Малый зал", "Белова"],
+    [2, 18, 1, "vocal", "Инд.: Ева Князева", "moz", "Класс 1", "Лаптева"],
+    [3, 12.5, 1, "dance", "Малыши 4–6", "lab", "Большой зал", "Белова"],
+    [3, 15, 1.5, "prod", "Свой трек", "lab", "Студия", "Арсеньев"],
+    [3, 16.5, 1.5, "vocal", "Голос 10+", "moz", "Вокальный класс", "Лаптева"],
+    [3, 18, 1, "vocal", "Инд.: Мира Голованова", "lab", "Класс 2", "Лаптева"],
+    [3, 19, 1.5, "media", "Медиалаборатория", "lab", "Студия", "Орлова"],
+    [3, 19.5, 1.5, "dance", "«Свои» 10+", "moz", "Большой зал", "Алёна В."],
+    [4, 16, 1, "vocal", "Голос 7–9", "moz", "Вокальный класс", "Лаптева"],
+    [4, 17.5, 1.5, "dance", "Хип-хоп 13+", "moz", "Большой зал", "Алёна В."],
+    [4, 18, 2, "prod", "Студийная смена", "lab", "Студия", "Арсеньев"],
+    [5, 11, 1, "dance", "Малыши 4–6", "lab", "Большой зал", "Белова"],
+    [5, 12, 1.5, "vocal", "Ансамбль", "moz", "Большой зал", "Лаптева"],
+    [5, 13, 1, "vocal", "Пробный: Кира", "lab", "Класс 2", "Лаптева"],
+    [5, 14, 2, "media", "Съёмка клипа", "lab", "Студия", "Орлова"],
+    [6, 12, 3, "dance", "Репетиция концерта", "moz", "Большой зал", "Все педагоги"],
+  ];
+  const hh = (t) => `${Math.floor(t)}:${String(Math.round((t % 1) * 60)).padStart(2, "0")}`;
+  const week = document.getElementById("week");
+  const H = (END - START) * PX;
+
+  function render(place) {
+    let html = `<div class="week-head" style="border-left:0"></div>`;
+    html += DAYS.map(([d, n], i) => `<div class="week-head ${i === TODAY ? "today" : ""}"><b>${n}</b><span>${d}</span></div>`).join("");
+    let hours = "";
+    for (let t = START + 1; t < END; t++) hours += `<span style="top:${(t - START) * PX}px">${t}:00</span>`;
+    html += `<div class="hours" style="height:${H}px">${hours}</div>`;
+    DAYS.forEach((_, i) => {
+      let lines = "";
+      for (let t = START + 1; t < END; t++) lines += `<div class="hl" style="top:${(t - START) * PX}px"></div>`;
+      const dayL = L.filter((l) => l[0] === i && (place === "all" || l[5] === place)).sort((a, b) => a[1] - b[1]);
+      // одновременные занятия делят колонку пополам
+      const lane = dayL.map((l, k) => dayL.slice(0, k).some((p) => p[1] + p[2] > l[1]) ? 1 : 0);
+      const shared = dayL.map((l, k) => lane[k] === 1 || dayL.slice(k + 1).some((n) => l[1] + l[2] > n[1]));
+      const items = dayL.map((l, k) => `
+        <div class="lesson" style="--c:var(--dir-${l[3]});top:${(l[1] - START) * PX + 2}px;height:${l[2] * PX - 4}px;${shared[k] ? `left:calc(${lane[k] * 50}% + 4px);right:calc(${(1 - lane[k]) * 50}% + 2px)` : ""}" title="${l[4]}, ${hh(l[1])}–${hh(l[1] + l[2])}">
+          <b>${l[4]}</b><span>${hh(l[1])}–${hh(l[1] + l[2])}</span><span>${l[5] === "lab" ? "Лаб." : "Мож."}, ${l[6]}</span><span>${l[7]}</span>
+        </div>`).join("");
+      const now = i === TODAY ? `<div class="now-mark" style="top:${(NOW - START) * PX}px" aria-label="Сейчас"></div>` : "";
+      html += `<div class="day ${i === TODAY ? "today" : ""}" style="height:${H}px">${lines}${items}${now}</div>`;
+    });
+    week.innerHTML = html;
+  }
+  render("all");
+  document.getElementById("place").addEventListener("change", (e) => render(e.detail));
+</script>
+</body>
+</html>
